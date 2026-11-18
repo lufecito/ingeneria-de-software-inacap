@@ -1,0 +1,24 @@
+sequenceDiagram
+    actor B as Encargado de bodega
+    participant V as Vista de salida
+    participant S as ServicioInventario
+    participant DB as PostgreSQL
+
+    B->>V: Insumo, cantidad, servicio y autorizante
+    V->>S: registrar_salida(datos)
+    S->>S: validar permisos, cantidad positiva y autorizante
+    S->>DB: BEGIN
+    S->>DB: SELECT lotes elegibles ORDER BY vencimiento
+    S->>DB: SELECT existencias FOR UPDATE (orden por id)
+    alt saldo suficiente y lotes vigentes
+        S->>DB: INSERT movimiento SALIDA
+        S->>DB: UPDATE existencias descontadas
+        S->>DB: INSERT evento de auditoría
+        S->>DB: COMMIT
+        S-->>V: movimiento registrado
+        V-->>B: confirmación con saldo restante
+    else saldo insuficiente o lote vencido
+        S->>DB: ROLLBACK
+        S-->>V: rechazo con motivo
+        V-->>B: mensaje de error
+    end

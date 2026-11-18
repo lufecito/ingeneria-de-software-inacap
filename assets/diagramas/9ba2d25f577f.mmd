@@ -1,0 +1,18 @@
+sequenceDiagram
+    actor B as Encargado de bodega
+    participant V as Vista de entrada
+    participant S as ServicioInventario
+    participant DB as PostgreSQL
+
+    B->>V: Insumo, cantidad, lote y vencimiento
+    V->>S: registrar_entrada(datos)
+    S->>S: validar insumo activo y lote obligatorio
+    S->>DB: BEGIN
+    S->>DB: obtener o crear existencia (bodega, lote)
+    S->>DB: SELECT existencia FOR UPDATE
+    S->>DB: INSERT movimiento ENTRADA
+    S->>DB: UPDATE existencia.saldo
+    S->>DB: INSERT evento de auditoría
+    S->>DB: COMMIT
+    S-->>V: movimiento registrado
+    V-->>B: confirmación con saldo actualizado

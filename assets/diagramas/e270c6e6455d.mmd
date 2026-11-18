@@ -1,0 +1,11 @@
+flowchart LR
+    U[Usuarios autorizados] -->|HTTPS| W[Servidor web]
+    W --> D[Aplicación Django]
+    subgraph D [Aplicación Django: monolito modular]
+        P[Vistas, formularios y plantillas]
+        S[Servicios de aplicación y reglas de negocio]
+        M[Modelos y consultas mediante ORM]
+        P --> S
+        S --> M
+    end
+    M --> B[(PostgreSQL)]

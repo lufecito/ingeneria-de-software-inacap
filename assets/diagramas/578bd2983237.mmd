@@ -1,0 +1,12 @@
+erDiagram
+    CATEGORIA ||--o{ INSUMO : clasifica
+    INSUMO ||--o{ LOTE : "se recibe en"
+    BODEGA ||--o{ EXISTENCIA : almacena
+    LOTE ||--|| EXISTENCIA : "saldo en"
+    INSUMO ||--o{ MOVIMIENTO : afecta
+    LOTE ||--o{ MOVIMIENTO : registra
+    SERVICIO ||--o{ MOVIMIENTO : "destino de"
+    USUARIO ||--o{ MOVIMIENTO : "registra"
+    MOVIMIENTO ||--o| MOVIMIENTO : "revierte"
+    SERVICIO ||--o{ USUARIO : adscribe
+    USUARIO ||--o{ EVENTO_AUDITORIA : genera

@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor B as Encargado de bodega
+    participant V as Vista de anulación
+    participant S as ServicioInventario
+    participant DB as PostgreSQL
+
+    B->>V: Movimiento y motivo
+    V->>S: anular_movimiento(id, motivo)
+    S->>DB: BEGIN
+    S->>DB: SELECT movimiento FOR UPDATE
+    alt ya anulado
+        S-->>V: rechazo por anulación previa
+    else entrada con lotes consumidos
+        S-->>V: rechazo y sugerencia de ajuste por conteo
+    else anulación válida
+        S->>DB: marcar original como ANULADO
+        S->>DB: INSERT movimiento REVERSION vinculado
+        S->>DB: UPDATE existencia.saldo
+        S->>DB: INSERT evento de auditoría
+        S->>DB: COMMIT
+        S-->>V: anulación registrada
+    end

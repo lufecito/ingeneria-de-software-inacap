@@ -1,0 +1,46 @@
+flowchart LR
+    BOD([Encargado de bodega])
+    JEF([Jefe de servicio])
+    ADM([Administrador])
+    AUD([Auditor])
+
+    subgraph SI[Gestión de inventario de insumos médicos]
+        CU01(Registrar entrada)
+        CU02(Registrar salida)
+        CU03(Anular movimiento)
+        CU04(Ajustar por conteo)
+        CU05(Consultar existencias)
+        CU06(Alertas de stock mínimo)
+        CU07(Próximos vencimientos)
+        CU08(Consultar historial)
+        CU09(Consumo del servicio)
+        CU10(Gestionar catálogo)
+        CU11(Gestionar usuarios)
+        CU12(Consultar auditoría)
+        CU13(Generar reportes)
+    end
+
+    BOD --> CU01
+    BOD --> CU02
+    BOD --> CU03
+    BOD --> CU05
+    BOD --> CU06
+    BOD --> CU07
+    BOD --> CU08
+
+    ADM --> CU04
+    ADM --> CU10
+    ADM --> CU11
+    ADM --> CU05
+    ADM --> CU06
+    ADM --> CU08
+    ADM --> CU13
+
+    JEF --> CU09
+    JEF --> CU05
+    JEF --> CU06
+    JEF --> CU13
+
+    AUD --> CU08
+    AUD --> CU12
+    AUD --> CU13

@@ -1,0 +1,20 @@
+# Entorno de trabajo
+.venv/
+__pycache__/
+*.pyc
+
+# Dependencias de Node (se reinstalan con npm install)
+tools/mermaid/node_modules/
+
+# Material del curso: no se publica
+*.m4a
+*.mp3
+ing software 12_11 Transcript (1).docx
+Formato_Informe_U1_Ingenieria de software.docx
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Captura del ejemplo de carta Gantt del curso
+46cdb150-bca9-49ec-bd57-5a95b90c9846.jpeg

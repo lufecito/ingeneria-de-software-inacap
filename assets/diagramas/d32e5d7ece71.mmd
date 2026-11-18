@@ -1,0 +1,80 @@
+classDiagram
+    class Categoria {
+        +int id
+        +str nombre
+        +bool activo
+    }
+
+    class Insumo {
+        +int id
+        +str codigo
+        +str nombre
+        +str unidad_medida
+        +Decimal stock_minimo
+        +bool controla_lote
+        +bool activo
+        +existencias_disponibles() Decimal
+        +esta_bajo_minimo() bool
+    }
+
+    class Lote {
+        +int id
+        +str numero
+        +date fecha_vencimiento
+        +date fecha_ingreso
+        +esta_vencido() bool
+        +saldo() Decimal
+    }
+
+    class Existencia {
+        +int id
+        +Decimal saldo
+        +bloquear() void
+        +aplicar(delta) void
+    }
+
+    class Movimiento {
+        +int id
+        +str tipo
+        +Decimal cantidad
+        +str estado
+        +str motivo
+        +str documento_referencia
+        +datetime fecha_hora
+        +efecto() Decimal
+        +puede_anularse() bool
+    }
+
+    class Servicio {
+        +int id
+        +str nombre
+        +bool activo
+    }
+
+    class Usuario {
+        +int id
+        +str username
+        +str nombre
+        +bool activo
+        +es_autorizante_valido() bool
+    }
+
+    class EventoAuditoria {
+        +int id
+        +str accion
+        +str entidad
+        +str objeto_id
+        +str resultado
+        +datetime fecha_hora
+    }
+
+    Categoria "1" --> "0..*" Insumo
+    Insumo "1" --> "0..*" Lote
+    Lote "1" --> "1" Existencia
+    Insumo "1" --> "0..*" Movimiento
+    Lote "1" --> "0..*" Movimiento
+    Servicio "1" --> "0..*" Movimiento
+    Usuario "1" --> "0..*" Movimiento : registra
+    Movimiento "0..1" --> "0..1" Movimiento : revierte
+    Servicio "1" --> "0..*" Usuario
+    Usuario "1" --> "0..*" EventoAuditoria

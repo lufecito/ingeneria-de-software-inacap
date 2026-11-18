@@ -1,0 +1,5 @@
+stateDiagram-v2
+    [*] --> VIGENTE : se registra
+    VIGENTE --> ANULADO : se anula y se crea reversión
+    VIGENTE --> VIGENTE : sin cambios
+    ANULADO --> [*]
